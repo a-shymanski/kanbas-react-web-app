@@ -7,6 +7,7 @@ export default function Labs() {
   return (
     <div>
       <h1>Aiden Shymanski</h1>
+      <h1> Section 02</h1>
       <h1>Labs</h1>
       <TOC />
       <Routes>
