@@ -1,25 +1,28 @@
-import { Form, Button, Row, Col } from 'react-bootstrap';
+import { Form, Row, Col } from 'react-bootstrap';
+import { useParams, Link } from "react-router";
+import * as db from "../../Database";
+
 export default function AssignmentEditor() {
+  const { aid, cid } = useParams();
+
+  const assignment = db.assignments.find(a => a._id === aid);
+
   return (
     <div id="wd-assignments-editor">
       <Form>
         <Form.Group className="mb-3">
           <Form.Label><strong>Assignment Name</strong></Form.Label>
-          <Form.Control id="wd-name" value="A1 - ENV + HTML" />
+          <Form.Control id="wd-name" defaultValue={assignment.title} />
         </Form.Group>
         <Form.Group className="mb-3">
           <Form.Label><strong>Description</strong></Form.Label>
-          <Form.Control
-            as="textarea"
-            id="wd-description"
-            value="The assignment is available online. Submit a link to the landing page of your Web application running on Netlify. The landing page should include the following: Your full name and section Links to each of the lab assignments Link to the Kanbaz application Links to all relevant source code repositories The Kanbaz application should include a link to navigate back to the landing page."
-            rows={5}/>
+          <Form.Control as="textarea" id="wd-description" defaultValue={assignment.details} rows={5}/>
         </Form.Group>
         <Row className="mb-3">
           <Col md={6}>
             <Form.Group>
               <Form.Label>Points</Form.Label>
-              <Form.Control id="wd-points" value={100} />
+              <Form.Control id="wd-points" defaultValue={assignment.points} />
             </Form.Group>
           </Col>
         </Row>
@@ -78,7 +81,7 @@ export default function AssignmentEditor() {
           <Col md={6}>
             <Form.Group>
               <Form.Label>Due</Form.Label>
-              <Form.Control type="date" id="wd-due-date" value="2024-05-13" />
+              <Form.Control type="date" id="wd-due-date" defaultValue={assignment.dueDate} />
             </Form.Group>
           </Col>
         </Row>
@@ -86,19 +89,19 @@ export default function AssignmentEditor() {
           <Col md={6}>
             <Form.Group>
               <Form.Label>Assign from</Form.Label>
-              <Form.Control type="date" value="2024-05-06" id="wd-available-from" />
+              <Form.Control type="date" id="wd-available-from" defaultValue={assignment.availableFrom} />
             </Form.Group>
           </Col>
           <Col md={6}>
             <Form.Group>
               <Form.Label>Until</Form.Label>
-              <Form.Control type="date" value="2024-05-20" id="wd-available-until" />
+              <Form.Control type="date" id="wd-available-until" defaultValue={assignment.availableUntil} />
             </Form.Group>
           </Col>
         </Row>
         <div id="wd-button" className="mt-4 d-flex justify-content-end">
-          <Button variant="secondary" className="me-2">Cancel</Button>
-          <Button variant="danger">Save</Button>
+          <Link to={`/Kambaz/Courses/${cid}/Assignments`} className="btn btn-secondary me-2">Cancel</Link>
+          <Link to={`/Kambaz/Courses/${cid}/Assignments`} className="btn btn-danger">Save</Link>
         </div>
       </Form>
     </div>
