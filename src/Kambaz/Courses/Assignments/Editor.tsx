@@ -7,6 +7,10 @@ export default function AssignmentEditor() {
 
   const assignment = db.assignments.find(a => a._id === aid);
 
+  if (!assignment) {
+    return <div>Assignment not found</div>;
+  }
+
   return (
     <div id="wd-assignments-editor">
       <Form>
