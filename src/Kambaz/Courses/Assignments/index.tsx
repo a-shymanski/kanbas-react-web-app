@@ -5,7 +5,10 @@ import { FaSearch } from "react-icons/fa";
 import { LuNotebookPen } from "react-icons/lu";
 import { useParams, useNavigate } from "react-router";
 import { useSelector, useDispatch } from "react-redux";
-import { deleteAssignment } from "./reducer";
+import { deleteAssignment, setAssignments } from "./reducer";
+import { useEffect } from "react";
+import * as coursesClient from "../client"
+import * as assignmentsClient from "./client";
 import ModuleControlButtons from "./ModuleControlButtons";
 import LessonControlButtons from "./LessonControlButtons";
 
@@ -15,6 +18,19 @@ export default function Assignments() {
   const { assignments } = useSelector((state: any) => state.assignmentsReducer);
   const { currentUser } = useSelector((state: any) => state.accountReducer);
   const dispatch = useDispatch();
+
+  const fetchAssignments = async () => {
+    const assignments = await coursesClient.findAssignmentsForCourse(cid as string);
+    dispatch(setAssignments(assignments));
+  };
+  useEffect(() => {
+    fetchAssignments();
+  }, []);
+  const removeAssignment = async (assignmentId: any) => {
+    await assignmentsClient.deleteAssignment(assignmentId);
+    dispatch(deleteAssignment(assignmentId));
+  };
+
   return (
     <div>
       {currentUser?.role === "FACULTY" && (
@@ -44,7 +60,8 @@ export default function Assignments() {
             <BsGripVertical className="me-2 fs-3" />ASSIGNMENTS<ModuleControlButtons />
           </div>
           <ListGroup className="wd-lessons rounded-0">
-            {assignments.filter((assignment: any) => assignment.course === cid)
+            {assignments
+            // .filter((assignment: any) => assignment.course === cid)
               .map((assignment: any) => (
                 <ListGroup.Item key={assignment._id}
                   className="wd-lesson p-3 ps-1 border-start border-success border-4 border-top-0 border-end-0 border-bottom-0 d-flex align-items-center">
@@ -61,11 +78,8 @@ export default function Assignments() {
                     {currentUser?.role === "FACULTY" &&
                       <LessonControlButtons
                         assignmentId={assignment._id}
-                        deleteAssignment={(assignmentId) => {
-                          {
-                            dispatch(deleteAssignment(assignmentId));
-                          }
-                        }} />}
+                        deleteAssignment={(assignmentId) => removeAssignment(assignmentId)}
+                         />}
                   </div>
                 </ListGroup.Item>
               ))}
