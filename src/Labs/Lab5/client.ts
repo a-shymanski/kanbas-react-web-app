@@ -13,6 +13,18 @@ export const updateTitle = async (title: string) => {
   const response = await axios.get(`${ASSIGNMENT_API}/title/${title}`);
   return response.data;
 };
+
+const QUIZ_API = `${REMOTE_SERVER}/lab5/quiz`;
+export const fetchQuiz = async () => {
+  const response = await axios.get(`${QUIZ_API}`);
+  return response.data;
+};
+// export const updateTitle = async (title: string) => {
+//   const response = await axios.get(`${QUIZ_API}/title/${title}`);
+//   return response.data;
+// };
+
+
 const TODOS_API = `${REMOTE_SERVER}/lab5/todos`;
 export const fetchTodos = async () => {
   const response = await axios.get(TODOS_API);
