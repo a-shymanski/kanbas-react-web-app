@@ -57,3 +57,30 @@ export const createQuizForCourse = async (courseId: any, quiz: any) => {
   );
   return response.data;
 };
+
+export const fetchAllEnrollments = async () => {
+  const { data } = await axios.get(`${COURSES_API}/enrollments`);
+  return data;
+};
+
+export const setEnrollments = async (enrollments: any[]) => {
+  const { data } = await axios.post(`${COURSES_API}/enrollments`, enrollments);
+  return data;
+};
+
+export const enrollUserInCourse = async (user: any, course: any) => { 
+  const { data } = await axios.post(`${COURSES_API}/${course._id}/${user._id}/enrollments`, {
+    user,
+    course,
+  });
+  return data;
+}
+export const unenrollUserFromCourse = async (user: any, course: any) => {
+  const { data } = await axios.delete(`${COURSES_API}/${course._id}/${user._id}/enrollments`, {
+    data: {
+      user,
+      course,
+    },
+  });
+  return data;
+}
