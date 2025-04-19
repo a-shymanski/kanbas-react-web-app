@@ -48,7 +48,15 @@ export default function QuizDetails() {
 
   return (
     <Container>
-      <h2>{quiz.title}</h2>
+      <h2>
+        {quiz.title}
+        <Button
+          variant="danger"
+          className="ms-3"
+          onClick={() => navigate(`/Kambaz/Courses/${cid}/Quizzes/${qid}/QuestionsEditor`)}>
+          Editor
+        </Button>
+      </h2>
       <div className="row">
         <div className="col">
           <div className="float-end">
