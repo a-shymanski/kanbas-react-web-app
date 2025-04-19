@@ -18,7 +18,10 @@ export default function Quizzes() {
   const { quizzes } = useSelector((state: any) => state.quizzesReducer);
   const { currentUser } = useSelector((state: any) => state.accountReducer);
   const dispatch = useDispatch();
-
+  function formatDate(dateString: string): string {
+    const date = new Date(dateString + "T12:00:00");
+    return date.toLocaleDateString('en-US', { month: 'long', day: 'numeric' });
+  }
   const fetchQuizzes = async () => {
     const quizzes = await coursesClient.findQuizzesForCourse(cid as string);
     dispatch(setQuizzes(quizzes));
@@ -37,7 +40,7 @@ export default function Quizzes() {
         <div id="wd-quizzes-controls" className="text-nowrap mb-3">
           <Button variant="danger" size="lg" className="me-1 float-end"
             id="wd-add-quiz"
-            onClick={() => navigate(`/Kambaz/Courses/${cid}/Quizzes/new`)}>
+            onClick={() => navigate(`/Kambaz/Courses/${cid}/Quizzes/new/QuestionsEditor`)}>
             <FaPlus className="position-relative me-2" style={{ bottom: "1px" }} />
             Quiz
           </Button>
@@ -71,14 +74,21 @@ export default function Quizzes() {
                       className="fw-bold text-dark text-decoration-none">
                       {quiz.title}
                     </a>
-                    <p className="text-muted mb-0">{quiz.details}</p>
+                    <p className="text-muted mb-0">
+                      {quiz.details}
+                      <br />
+                      <span className="text-danger fw-bold">Multiple Modules </span>
+                      | <b>Not available until</b> {formatDate(quiz.availableFrom )} at 12:00am |
+                      <br />
+                      <b>Due</b> {formatDate(quiz.dueDate)} at 11:59pm | {quiz.points}pts
+                    </p>
                   </div>
                   <div className="ms-auto">
                     {currentUser?.role === "FACULTY" &&
                       <LessonControlButtons
                         quizId={quiz._id}
                         deleteQuiz={(quizId) => removeQuiz(quizId)}
-                         />}
+                      />}
                   </div>
                 </ListGroup.Item>
               ))}
