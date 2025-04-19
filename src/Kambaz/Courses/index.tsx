@@ -8,22 +8,23 @@ import AssignmentEditor from "./Assignments/Editor";
 import QuestionsEditor from "./Quizzes/Questions/QuestionsEditor";
 import { Navigate, Route, Routes, useParams, useLocation } from "react-router";
 import { FaAlignJustify } from "react-icons/fa";
-export default function Courses({ courses }: { courses: any[]; }) {
+import QuizDetails from "./Quizzes/Details";
+export default function Courses({ courses }: { courses: any[] }) {
   const { cid } = useParams();
   const course = courses.find((course) => course._id === cid);
   const { pathname } = useLocation();
   return (
     <div id="wd-courses">
       <h2 className="text-danger">
-        <FaAlignJustify className="me-4 fs-4 mb-1" />{course && course.name}  &gt; {pathname.split("/")[4]}</h2>
+        <FaAlignJustify className="me-4 fs-4 mb-1" />
+        {course && course.name} &gt; {pathname.split("/")[4]}
+      </h2>
       <hr />
       <div className="d-flex">
         <div className="d-none d-md-block">
-
           <CourseNavigation />
         </div>
         <div className="flex-fill">
-
           <Routes>
             <Route path="/" element={<Navigate to="Home" />} />
             <Route path="Home" element={<Home />} />
@@ -32,9 +33,11 @@ export default function Courses({ courses }: { courses: any[]; }) {
             <Route path="Assignments/:aid" element={<AssignmentEditor />} />
             <Route path="Quizzes" element={<Quizzes />} />
             <Route path="Quizzes/:qid/QuestionsEditor" element={<QuestionsEditor />} />
+            <Route path="Quizzes/:qid" element={<QuizDetails />} />
             <Route path="People" element={<PeopleTable />} />
           </Routes>
-        </div></div>
+        </div>
+      </div>
     </div>
   );
 }
