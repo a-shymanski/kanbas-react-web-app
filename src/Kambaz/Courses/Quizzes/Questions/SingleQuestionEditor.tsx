@@ -129,7 +129,8 @@ export default function SingleQuestionEditor({ question }: { question: any }) {
                     {editingQuestion.answers && editingQuestion.answers.map((answer: any) => (
                         <Row className="mb-2 align-items-center">
                             <Col md={1}>
-                                <Form.Check
+                                {editingQuestion.type !== "Fill In" &&
+                                    <Form.Check
                                     type="radio"
                                     id={`answer-radio-${answer._id}`}
                                     name="correctAnswer"
@@ -137,6 +138,7 @@ export default function SingleQuestionEditor({ question }: { question: any }) {
                                     onChange={() => handleCorrectAnswer(answer._id)}
                                     label=""
                                 />
+                                }
                             </Col>
                             <Col md={9}>
                                 {editingQuestion.type !== "True/False" &&

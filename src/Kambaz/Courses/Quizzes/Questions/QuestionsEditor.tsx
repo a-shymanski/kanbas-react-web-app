@@ -95,7 +95,9 @@ export default function QuestionsEditor() {
                                         {question.answers && question.answers
                                             .map((answer: any) => (
                                                 <div>
-                                                    <Form.Label id="wd-answers"> {answer.description || "NOTHING"}</Form.Label>
+                                                    <Form.Label id="wd-answers" className={(question.type === "Fill In" || answer.correct) ? "text-success" : "text-danger"} >
+                                                        - {answer.description || "NOTHING"}
+                                                    </Form.Label>
                                                     <br />
                                                 </div>
                                             ))}
