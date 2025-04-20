@@ -1,11 +1,11 @@
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
 import { Form, Row, Col, Button } from "react-bootstrap";
 import { useDispatch, useSelector } from "react-redux";
 import { useParams } from "react-router";
 import { v4 as uuidv4 } from "uuid";
 import * as quizzesClient from "../client";
 import * as questionsClient from "./client"
-import { addQuestion, deleteQuestion, editQuestion, setQuestions, updateQuestion } from "./reducer";
+import { addQuestion, deleteQuestion, editQuestion, setQuestions } from "./reducer";
 import { FaPlus, FaTrash } from "react-icons/fa";
 import { FaPencil } from "react-icons/fa6";
 import SingleQuestionEditor from "./SingleQuestionEditor";
@@ -16,23 +16,23 @@ export default function QuestionsEditor() {
     const dispatch = useDispatch();
     const { currentUser } = useSelector((state: any) => state.accountReducer);
     const { questions } = useSelector((state: any) => state.questionsReducer);
-    const newQuestion = {
-        _id: uuidv4(),
-        title: "Create Title",
-        question: "Write Question",
-        quiz: qid,
-        user: currentUser,
-        type: "Multiple Choice",
-        points: "1",
-        answers: [
-            {
-                _id: uuidv4(),
-                description: "Answer description",
-                correct: true,
-            },
-        ],
-    };
     const handleAdd = async () => {
+        const newQuestion = {
+            _id: uuidv4(),
+            title: "Create Title",
+            question: "Write Question",
+            quiz: qid,
+            user: currentUser,
+            type: "Multiple Choice",
+            points: "1",
+            answers: [
+                {
+                    _id: uuidv4(),
+                    description: "Answer description",
+                    correct: true,
+                },
+            ],
+        };
         const addedQuestion = await quizzesClient.createQuestionForQuiz(qid as string, newQuestion);
         dispatch(addQuestion(addedQuestion));
     };
@@ -88,17 +88,17 @@ export default function QuestionsEditor() {
                                         <br />
                                         <Form.Label id="wd-question"> {question.question}</Form.Label>
                                     </Form.Group>
-                                    {/* <Form.Group className="mb-3">
+                                    <Form.Group className="mb-3">
                                         <Form.Label><strong>Answers</strong></Form.Label>
                                         <br />
-                                        {question.answers
+                                        {question.answers && question.answers
                                             .map((answer: any) => (
                                                 <div>
-                                                    <Form.Label id="wd-answers"> {answer.description}</Form.Label>
+                                                    <Form.Label id="wd-answers"> {answer.description || "NOTHING"}</Form.Label>
                                                     <br />
                                                 </div>
                                             ))}
-                                    </Form.Group> */}
+                                    </Form.Group>
                                     <Button variant="danger" size="sm" className="me-1 float-end mb-1" id="wd-delete-question-btn"
                                         onClick={() => handleDelete(question._id)}>
                                         <FaTrash className="position-relative me-2" style={{ bottom: "1px" }} />
