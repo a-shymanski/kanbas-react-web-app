@@ -30,3 +30,13 @@ export const createQuestionForQuiz = async (quizId: string, question: any) => {
   );
   return response.data;
 }
+
+export const submitUserSubmissions = async (quizId: string, userAnswers: any[]) => {
+  const response = await axios.post(`${QUIZZES_API}/${quizId}/submissions`, userAnswers);
+  return response.data
+}
+
+export const getSubmissions = async (quizId: string) => {
+  const response = await axios.get(`${QUIZZES_API}/${quizId}/submissions`);
+  return response.data
+}

@@ -46,6 +46,12 @@ export default function QuizDetails() {
     fetchQuiz();
   }, []);
 
+  const handleViewSubmissions = async () => {
+    console.log("frick ye")
+    const submissions = await quizzesClient.getSubmissions(qid as string);
+    console.log("Submissions: ", submissions);
+}
+
   return (
     <Container>
       <h2>
@@ -61,6 +67,12 @@ export default function QuizDetails() {
           className="ms-3"
           onClick={() => navigate(`/Kambaz/Courses/${cid}/Quizzes/${qid}/TakeQuiz`)}>
           Take Quiz
+        </Button>
+        <Button
+          variant="danger"
+          className="ms-3"
+          onClick={handleViewSubmissions}>
+          View Submissions
         </Button>
       </h2>
       <div className="row">

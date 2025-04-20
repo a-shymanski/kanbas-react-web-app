@@ -26,12 +26,12 @@ export default function QuizTaker() {
         }));
     };
 
-    const handleSubmit = () => {
-        // You can implement actual grading logic here or send the user's answers to backend
+    const handleSubmit = async () => {
+        await quizzesClient.submitUserSubmissions(qid as string, userAnswers);
         console.log("User submitted answers:", userAnswers);
         alert("Quiz submitted! Check console for selected answers.");
     };
-
+    
     return (
         <div>
             <h5>TAKE QUIZ</h5>
