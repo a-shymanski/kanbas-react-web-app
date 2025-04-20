@@ -56,6 +56,12 @@ export default function QuizDetails() {
           onClick={() => navigate(`/Kambaz/Courses/${cid}/Quizzes/${qid}/QuestionsEditor`)}>
           Editor
         </Button>
+        <Button
+          variant="danger"
+          className="ms-3"
+          onClick={() => navigate(`/Kambaz/Courses/${cid}/Quizzes/${qid}/TakeQuiz`)}>
+          Take Quiz
+        </Button>
       </h2>
       <div className="row">
         <div className="col">
