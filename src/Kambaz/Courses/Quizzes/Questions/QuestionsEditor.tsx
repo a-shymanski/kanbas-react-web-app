@@ -35,6 +35,7 @@ export default function QuestionsEditor() {
         };
         const addedQuestion = await quizzesClient.createQuestionForQuiz(qid as string, newQuestion);
         dispatch(addQuestion(addedQuestion));
+        fetchQuestions();
     };
     const handleDelete = async (questionId: string) => {
         await questionsClient.deleteQuestion(questionId);

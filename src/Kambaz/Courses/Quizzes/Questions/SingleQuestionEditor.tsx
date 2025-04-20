@@ -85,7 +85,26 @@ export default function SingleQuestionEditor({ question }: { question: any }) {
                             <Form.Label><strong>Question Type</strong></Form.Label>
                             <Form.Select
                                 defaultValue={question.type}
-                                onChange={(e) => setEditingQuestion({ ...editingQuestion, type: e.target.value })}
+                                onChange={(e) => {
+                                    if (e.target.value === "True/False") {
+                                        const newAnswers = [
+                                            {
+                                                _id: uuidv4(),
+                                                description: "True",
+                                                correct: true,
+                                            },
+                                            {
+                                                _id: uuidv4(),
+                                                description: "False",
+                                                correct: false,
+                                            },
+                                        ];
+                                        setEditingQuestion({ ...editingQuestion, type: e.target.value, answers: newAnswers })
+                                    }
+                                    else {
+                                        setEditingQuestion({ ...editingQuestion, type: e.target.value })
+                                    }
+                                }}
                                 id="wd-select-type"
                             >
                                 <option value="Multiple Choice">Multiple Choice</option>
@@ -120,31 +139,40 @@ export default function SingleQuestionEditor({ question }: { question: any }) {
                                 />
                             </Col>
                             <Col md={9}>
-                                <Form.Control
-                                    value={answer.description}
-                                    onChange={(e) => handleAnswerChange(answer._id, e.target.value)}
-                                    placeholder="Answer text"
-                                />
+                                {editingQuestion.type !== "True/False" &&
+                                    <Form.Control
+                                        value={answer.description}
+                                        onChange={(e) => handleAnswerChange(answer._id, e.target.value)}
+                                        placeholder="Answer text"
+                                    />
+                                }
+                                {editingQuestion.type === "True/False" &&
+                                    <Form.Label>{answer.description}</Form.Label>
+                                }
                             </Col>
-                            <Col md={2}>
-                                <Button
-                                    variant="danger"
-                                    size="sm"
-                                    className="me-1"
-                                    onClick={() => handleDeleteAnswer(answer._id)}>
-                                    <FaTrash className="danger"/> Delete
-                                </Button>
-                            </Col>
+                            {editingQuestion.type !== "True/False" &&
+                                <Col md={2}>
+                                    <Button
+                                        variant="danger"
+                                        size="sm"
+                                        className="me-1"
+                                        onClick={() => handleDeleteAnswer(answer._id)}>
+                                        <FaTrash className="danger" /> Delete
+                                    </Button>
+                                </Col>
+                            }
                         </Row>
                     ))}
                     <br />
-                    <Button
-                        variant="success"
-                        size="sm"
-                        className="mt-2"
-                        onClick={handleAddAnswer}>
-                        <FaPlus className="me-1" /> Add Answer
-                    </Button>
+                    {editingQuestion.type !== "True/False" &&
+                        <Button
+                            variant="success"
+                            size="sm"
+                            className="mt-2"
+                            onClick={handleAddAnswer}>
+                            <FaPlus className="me-1" /> Add Answer
+                        </Button>
+                    }
                 </Form.Group>
                 <Button variant="secondary" size="sm" className="me-1 float-start mb-1" id="wd-cancel-question-btn"
                     onClick={() => dispatch(cancelEditQuestion(question._id))}>
