@@ -1,14 +1,14 @@
-import { ListGroup, Button, Container } from "react-bootstrap";
-import { BsGripVertical } from "react-icons/bs";
-import { FaPlus } from "react-icons/fa6";
-import { FaSearch } from "react-icons/fa";
-import { LuNotebookPen } from "react-icons/lu";
+import { Button, Container } from "react-bootstrap";
+// import { BsGripVertical } from "react-icons/bs";
+// import { FaPlus } from "react-icons/fa6";
+// import { FaSearch } from "react-icons/fa";
+// import { LuNotebookPen } from "react-icons/lu";
 import { useParams, useNavigate } from "react-router";
-import { useSelector } from "react-redux";
+// import { useSelector } from "react-redux";
 import { useEffect, useState } from "react";
 import * as quizzesClient from "./client";
-import ModuleControlButtons from "./ModuleControlButtons";
-import LessonControlButtons from "./LessonControlButtons";
+// import ModuleControlButtons from "./ModuleControlButtons";
+// import LessonControlButtons from "./LessonControlButtons";
 
 export default function QuizDetails() {
   const { cid, qid } = useParams();
@@ -35,7 +35,7 @@ export default function QuizDetails() {
     lock: true,
   });
   const navigate = useNavigate();
-  const { currentUser } = useSelector((state: any) => state.accountReducer);
+  // const { currentUser } = useSelector((state: any) => state.accountReducer);
 
   const fetchQuiz = async () => {
     const quiz = await quizzesClient.findQuiz(qid as string);
